@@ -36,6 +36,6 @@ public class Batch {
     @Column(name = "batch_number")
     private String number;
 
-    @Column(name = "batch_school_id")
-    private Integer school;
+    @Column(name = "batch_vacancy_id")
+    private Integer vacancy;
 }

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class KafkaConsumerListeners {
 
     @Autowired
-    SchoolRepository schoolRepository;
+    VacancyRepository vacancyRepository;
 
     @Transactional
     @KafkaListener(topics = "${kafka.topic}", groupId = "${kafka.groupid}")
@@ -31,9 +31,9 @@ public class KafkaConsumerListeners {
         String op = ((org.apache.avro.util.Utf8) record.value().get("op")).toString();
 
         if (op.equals("d")) {
-            Integer idToDelete = (Integer) record.key().get("school_id");
+            Integer idToDelete = (Integer) record.key().get("vacancy_id");
             try {
-                schoolRepository.deleteById(idToDelete);
+                vacancyRepository.deleteById(idToDelete);
             } catch (org.springframework.dao.EmptyResultDataAccessException e) {
                 //Команда удаления приходит из удаленного лога репликации
                 //в том числе и в ответ на ответ на удаление в локальном. 
@@ -43,18 +43,18 @@ public class KafkaConsumerListeners {
         }
 
         org.apache.avro.generic.GenericData.Record value = (org.apache.avro.generic.GenericData.Record) record.value().get("after");
-        Integer id = (Integer) value.get("school_id");
-        String name = ((org.apache.avro.util.Utf8) value.get("school_name")).toString();
-        Integer number = (Integer) value.get("school_number");
+        Integer id = (Integer) value.get("vacancy_id");
+        String name = ((org.apache.avro.util.Utf8) value.get("vacancy_name")).toString();
+        Integer number = (Integer) value.get("vacancy_number");
 
-        School school = schoolRepository.findById(id).orElse(null);
+        Vacancy vacancy = vacancyRepository.findById(id).orElse(null);
 
-        if (school == null) {
-            schoolRepository.save(new School(id, name, number));
+        if (vacancy == null) {
+            vacancyRepository.save(new Vacancy(id, name, number));
         } else {
-            school.setName(name);
-            school.setNumber(number);
-            schoolRepository.save(school);
+            vacancy.setName(name);
+            vacancy.setNumber(number);
+            vacancyRepository.save(vacancy);
         }
     }
 

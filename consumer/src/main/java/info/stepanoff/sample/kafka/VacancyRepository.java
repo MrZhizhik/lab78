@@ -8,8 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 
 /**
  *
- * @author Pavel
+ * @author Pavel Stepanov our best teacher
  */
-public interface SchoolRepository extends CrudRepository<School, Integer> {
+public interface VacancyRepository extends CrudRepository<Vacancy, Integer> {
 
 }

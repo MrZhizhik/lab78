@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import info.stepanoff.trsis.samples.service.SchoolService;
+import info.stepanoff.trsis.samples.service.VacancyService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,16 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/public/rest/schools")
-@Api(value = "SchoolsAPI", description = "API for accessing schools")
-public class SchoolRestService {
+@RequestMapping("/public/rest/vacancys")
+@Api(value = "VacancysAPI", description = "API for accessing vacancys")
+public class VacancyRestService {
 
     @Autowired
-    private SchoolService schoolService;
+    private VacancyService vacancyService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
 
-    @ApiOperation(value = "View a list of all available schools", response = Iterable.class)
+    @ApiOperation(value = "View a list of all available vacancys", response = Iterable.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully retrieved list"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -41,10 +41,10 @@ public class SchoolRestService {
     }
     )
     public ResponseEntity<Object> browse() {
-        return ResponseEntity.ok(schoolService.listAll());
+        return ResponseEntity.ok(vacancyService.listAll());
     }
 
-    @ApiOperation(value = "Remove a school by ID", response = Iterable.class)
+    @ApiOperation(value = "Remove a vacancy by ID", response = Iterable.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully removed"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -59,7 +59,7 @@ public class SchoolRestService {
             throw new ForbiddenException();
         }
 
-        schoolService.delete(id);
+        vacancyService.delete(id);
     }
 
     @RequestMapping(value = "/mockdelete/{id}", method = RequestMethod.GET)
@@ -68,7 +68,7 @@ public class SchoolRestService {
             throw new ForbiddenException();
         }
 
-        schoolService.delete(id);
+        vacancyService.delete(id);
     }
 
     @RequestMapping(value = "/{number}/{name}", method = RequestMethod.POST)
@@ -77,10 +77,10 @@ public class SchoolRestService {
             throw new ForbiddenException();
         }
 
-        return ResponseEntity.ok(schoolService.add(number, name));
+        return ResponseEntity.ok(vacancyService.add(number, name));
     }
 
-    @ApiOperation(value = "Find a school by number", response = Iterable.class)
+    @ApiOperation(value = "Find a vacancy by number", response = Iterable.class)
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Successfully found"),
         @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
@@ -90,7 +90,7 @@ public class SchoolRestService {
     )
     @RequestMapping(value = "/{number}", method = RequestMethod.GET)
     public ResponseEntity<Object> findByNumber(@PathVariable("number") Integer number) {
-        return ResponseEntity.ok(schoolService.findByNumber(number));
+        return ResponseEntity.ok(vacancyService.findByNumber(number));
     }
 
 }

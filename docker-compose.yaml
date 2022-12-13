@@ -116,7 +116,7 @@ services:
       context: consumer
     environment:
       - KAFKA_BOOTSTRAPADDRESS=kafka:9092
-      - KAFKA_TOPIC=postgres1.public.school
+      - KAFKA_TOPIC=postgres1.public.vacancy
       - KAFKA_GROUPID=7654 
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres2:5432/inst2
       - SPRING_DATASOURCE_DRIVERCLASSNAME=org.hibernate.dialect.PostgreSQLDialect
@@ -133,7 +133,7 @@ services:
       context: consumer
     environment:
       - KAFKA_BOOTSTRAPADDRESS=kafka:9092
-      - KAFKA_TOPIC=postgres2.public.school
+      - KAFKA_TOPIC=postgres2.public.vacancy
       - KAFKA_GROUPID=7655 
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres1:5432/inst1
       - SPRING_DATASOURCE_DRIVERCLASSNAME=org.hibernate.dialect.PostgreSQLDialect
